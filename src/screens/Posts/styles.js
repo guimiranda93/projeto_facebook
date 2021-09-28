@@ -26,6 +26,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#222222',
   },
+  iconTime: {
+    marginRight: 40,
+  },
   time: {
     fontSize: 14,
     color: '#555555',

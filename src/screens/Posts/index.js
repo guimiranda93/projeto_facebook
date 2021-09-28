@@ -1,8 +1,12 @@
-import React from 'react';
-import {View, Text, Image, Pressable} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, Image} from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
+import ButtonFooter from '../../components/ButtonFooter';
 import styles from './styles';
 
 const Posts = () => {
+  const [liked, setLiked] = useState(false);
+
   return (
     <>
       <View style={styles.container}>
@@ -15,7 +19,9 @@ const Posts = () => {
           />
           <View>
             <Text style={styles.name}>Guilherme M Miranda</Text>
-            <Text style={styles.time}>10hrs</Text>
+            <Text style={styles.time}>
+              <Icon name="clockcircleo" style={styles.iconTime} /> 10hrs
+            </Text>
           </View>
         </View>
         <Text style={styles.text}>
@@ -39,17 +45,9 @@ const Posts = () => {
         <View style={styles.line} />
 
         <View style={styles.buttonRow}>
-          <Pressable style={styles.buttonFooter}>
-            <Text style={styles.textButton}>Curtir</Text>
-          </Pressable>
-
-          <Pressable style={styles.buttonFooter}>
-            <Text style={styles.textButton}>Comentar</Text>
-          </Pressable>
-
-          <Pressable style={styles.buttonFooter}>
-            <Text style={styles.textButton}>Compartilhar</Text>
-          </Pressable>
+          <ButtonFooter text="Curtir" icon={liked ? 'like1' : 'like2'} />
+          <ButtonFooter text="Comentar" icon="message1" />
+          <ButtonFooter text="Compartilhar" icon="sharealt" />
         </View>
       </View>
     </>
