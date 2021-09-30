@@ -1,11 +1,26 @@
 import React, {useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Linking} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import ButtonFooter from '../../components/ButtonFooter';
+import Comments from '../../components/Comments';
 import styles from './styles';
 
 const Posts = () => {
   const [liked, setLiked] = useState(false);
+  const [likesCounter, setLikesCounter] = useState(62);
+  const [openComments, setOpenComments] = useState(false);
+
+  const increment = () => {
+    let counter = likesCounter + 1;
+    setLikesCounter(counter);
+    setLiked(true);
+  };
+
+  const decrement = () => {
+    let counter = likesCounter - 1;
+    setLikesCounter(counter);
+    setLiked(false);
+  };
 
   return (
     <>
@@ -40,16 +55,30 @@ const Posts = () => {
       />
 
       <View style={styles.container}>
-        <Text style={styles.likesCount}>62 curtidas</Text>
+        <Text style={styles.likesCount}>{likesCounter} curtidas</Text>
 
         <View style={styles.line} />
 
         <View style={styles.buttonRow}>
-          <ButtonFooter text="Curtir" icon={liked ? 'like1' : 'like2'} />
-          <ButtonFooter text="Comentar" icon="message1" />
-          <ButtonFooter text="Compartilhar" icon="sharealt" />
+          <ButtonFooter
+            text="Curtir"
+            icon={liked ? 'like1' : 'like2'}
+            onPress={() => (liked ? decrement() : increment())}
+          />
+          <ButtonFooter
+            text="Comentar"
+            icon="message1"
+            onPress={() => setOpenComments(true)}
+          />
+          <ButtonFooter
+            text="Compartilhar"
+            icon="sharealt"
+            onPress={() => Linking.openURL('https://pt-br.facebook.com/')}
+          />
         </View>
       </View>
+
+      {openComments && <Comments onClose={() => setOpenComments(false)} />}
     </>
   );
 };
