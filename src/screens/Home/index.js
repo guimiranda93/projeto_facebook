@@ -25,6 +25,17 @@ const Home = ({navigation}) => {
         onPress={() => navigation.navigate('Profile')}>
         <Text>Ir para o perfil</Text>
       </Pressable>
+
+      <Pressable
+        style={{
+          backgroundColor: 'lightblue',
+          width: 150,
+          height: 30,
+          margin: 30,
+        }}
+        onPress={() => navigation.navigate('Blog')}>
+        <Text>Ir para o blog</Text>
+      </Pressable>
     </View>
   );
 };

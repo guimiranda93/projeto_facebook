@@ -1,13 +1,27 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import {RNCamera} from 'react-native-camera';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './styles';
 
 const Profile = () => {
   const camera = useRef();
   const [showCamera, setShowCamera] = useState(false);
   const [newImage, setNewImage] = useState('');
+
+  useEffect(() => {
+    AsyncStorage.getItem('foto_perfil').then(img => {
+      /*
+        if(img){
+          setNewImage(img);
+        }
+      */
+
+      // setNewImage(img ? img : '')
+      setNewImage(img || '');
+    });
+  }, []);
 
   const takePicture = async () => {
     if (camera.current) {
@@ -16,8 +30,17 @@ const Profile = () => {
       let extension = data.uri.split('.');
       extension = extension[extension.length - 1];
       setNewImage(`data:image/${extension};base64,${data.base64}`);
+      AsyncStorage.setItem(
+        'foto_perfil',
+        `data:image/${extension};base64,${data.base64}`,
+      );
       setShowCamera(false);
     }
+  };
+
+  const removePhoto = () => {
+    AsyncStorage.removeItem('foto_perfil');
+    setNewImage('');
   };
 
   return (
@@ -56,6 +79,11 @@ const Profile = () => {
                   </View>
                 </View>
               </>
+            </TouchableOpacity>
+          )}
+          {newImage !== '' && (
+            <TouchableOpacity onPress={() => removePhoto()}>
+              <Icon name="trash" color="red" size={30} />
             </TouchableOpacity>
           )}
         </View>
